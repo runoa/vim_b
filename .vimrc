@@ -100,3 +100,6 @@ nnoremap ,td :<C-u>DMTwitter<CR>
 nnoremap ,tb :<C-u>BackTwitter<CR>
 nnoremap ,tf :<C-u>RefreshTwitter<CR>
 
+"dictionary
+nnoremap ,d :Ref alc<Space>
+
