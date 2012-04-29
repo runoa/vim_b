@@ -34,7 +34,6 @@ inoremap <C-J> <ESC>:set iminsert=0<CR>
 nnoremap U <C-r>
 
 "ime
-let IM_CtrlIBusPython = 1
 if has('multi_byte_ime')
   highlight Cursor guifg=#000d18 guibg=#8faf9f gui=bold
   highlight CursorIM guifg=NONE guibg=#ecbcbc
@@ -49,9 +48,9 @@ inoremap ( ()<LEFT>
 set incsearch
 set ignorecase
 set smartcase
-map n nzz
-map N Nzz
-nnoremap <C-h> :set hlsearch! hlsearch?<CR>
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap ,h :set hlsearch! hlsearch?<CR>
 
 "open
 autocmd BufEnter * execute ":lcd " . expand("%:p:h")
@@ -62,6 +61,10 @@ if has("autocmd")
     \ endif
 endif
 
+""FuzzyFinder
+nnoremap ,of :FufFile<CR>
+nnoremap ,ob :FufBuffer<CR>
+
 "window
 nnoremap ,w0 :q<CR>
 nnoremap ,w1 :only<CR>
@@ -69,12 +72,12 @@ nnoremap H <C-w>h
 nnoremap J <C-w>j
 nnoremap K <C-w>k
 nnoremap L <C-w>l
-nnoremap ,wj :sp<CR> <C-w>j
-nnoremap ,wl :vs<CR> <C-w>l
+nnoremap ,wj :sp<CR><C-w>j:FufFile<CR>
+nnoremap ,wl :vs<CR><C-w>l:FufFile<CR>
 
 "compile
-autocmd FileType perl :map <C-E> :w !perl -cw %<CR>
-autocmd FileType perl :map <C-R> :w !perl %<CR>
+autocmd FileType perl :nnoremap ,e :w !perl -cw %<CR>
+autocmd FileType perl :nnoremap ,r :w !perl %<CR>
 
 "fold
 set foldmethod=indent
