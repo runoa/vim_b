@@ -28,10 +28,35 @@ set softtabstop=4
 set autoindent
 set cindent
 set pastetoggle=,p
+nnoremap U <C-r>
+inoremap <C-f> <ESC>:set iminsert=0<CR>
+
+"" bracket
+"inoremap {<Space> {}<LEFT>
+"inoremap [<Space> []<LEFT>
+"inoremap (<Space> ()<LEFT>
+"inoremap <<Space> <><LEFT>
+"inoremap "<Space> ""<LEFT>
+"inoremap '<Space> ''<LEFT>
+
+"complement
+"autocmd FileType python inoremap pr<Tab> print ""<LEFT>
+"autocmd FileType python inoremap if<Tab> if :<LEFT>
+"autocmd FileType python inoremap for<Tab> for :<LEFT>
+"autocmd FileType python inoremap s<Tab> self
+
+"move
 set whichwrap=b,s,h,l,<,>,[,]
 set vb t_vb=
-inoremap <C-J> <ESC>:set iminsert=0<CR>
-nnoremap U <C-r>
+nnoremap j gj
+nnoremap k gk
+nnoremap J <C-d>
+nnoremap K <C-u>
+nnoremap <C-g> gd
+nnoremap H b
+nnoremap L w
+nnoremap w ^
+nnoremap W $
 
 "ime
 if has('multi_byte_ime')
@@ -39,17 +64,10 @@ if has('multi_byte_ime')
   highlight CursorIM guifg=NONE guibg=#ecbcbc
 endif
 
-"" brackets
-inoremap { {}<LEFT>
-inoremap [ []<LEFT>
-inoremap ( ()<LEFT>
-
 " search
 set incsearch
 set ignorecase
 set smartcase
-nnoremap n nzz
-nnoremap N Nzz
 nnoremap ,h :set hlsearch! hlsearch?<CR>
 
 "open
@@ -68,16 +86,29 @@ nnoremap ,ob :FufBuffer<CR>
 "window
 nnoremap ,w0 :q<CR>
 nnoremap ,w1 :only<CR>
-nnoremap H <C-w>h
-nnoremap J <C-w>j
-nnoremap K <C-w>k
-nnoremap L <C-w>l
 nnoremap ,wj :sp<CR><C-w>j:FufFile<CR>
 nnoremap ,wl :vs<CR><C-w>l:FufFile<CR>
+""window move
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+""window size
+nnoremap ,ww <C-w>=
+nnoremap <UP> 5<C-w>+
+inoremap <UP> <ESC>5<C-w>+i
+nnoremap <LEFT> 5<C-w><
+inoremap <LEFT> <ESC>5<C-w><i
+nnoremap <DOWN> 5<C-w>-
+inoremap <DOWN> <ESC>5<C-w>-i
+nnoremap <RIGHT> 5<C-w>>
+inoremap <RIGHT> <ESC>5<C-w>>i
 
-"compile
-autocmd FileType perl :nnoremap ,e :w !perl -cw %<CR>
-autocmd FileType perl :nnoremap ,r :w !perl %<CR>
+"execute
+autocmd FileType perl :nnoremap ,e :w<CR>:w !perl -cw %<CR>
+autocmd FileType perl :nnoremap ,r :w<CR>:w !perl %<CR>
+autocmd FileType python :nnoremap ,e :w<CR>:w !python -cw %<CR>
+autocmd FileType python :nnoremap ,r :w<CR>:w !python %<CR>
 
 "fold
 set foldmethod=indent
@@ -91,14 +122,15 @@ nnoremap ,f3 :set foldlevel=3<CR>
 "twitvim
 let twitvim_count=100
 let twitvim_browser_cmd = "open -a Firefox"
-nnoremap ,tt :vs<CR>:<C-u>FriendsTwitter<CR>:q<CR>
-nnoremap ,tr :<C-u>RepliesTwitter<CR>
-nnoremap ,tp :<C-u>PosttoTwitter<CR>
-nnoremap ,tu :<C-u>UserTwitter<CR><C-w>j
-nnoremap ,tn :<C-u>NextTwitter<CR>
-nnoremap ,td :<C-u>DMTwitter<CR>
-nnoremap ,tb :<C-u>BackTwitter<CR>
-nnoremap ,tf :<C-u>RefreshTwitter<CR>
+nnoremap ,tt :vs<CR>:FriendsTwitter<CR>:q<CR>
+nnoremap ,tl :ListTwitter r<CR>
+nnoremap ,tr :RepliesTwitter<CR>
+nnoremap ,tp :PosttoTwitter<CR>
+nnoremap ,tu :UserTwitter<CR><C-w>j
+nnoremap ,tn :NextTwitter<CR>
+nnoremap ,td :DMTwitter<CR>
+nnoremap ,tb :BackTwitter<CR>
+nnoremap ,tf :RefreshTwitter<CR>
 
 "dictionary
 nnoremap ,d :Ref alc<Space>
