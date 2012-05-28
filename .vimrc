@@ -28,7 +28,11 @@ set softtabstop=4
 "edit
 set autoindent
 set cindent
+<<<<<<< HEAD
 set pastetoggle=
+=======
+set pastetoggle=,p
+>>>>>>> bb69096c1e953eaf236080127612c18779e3c381
 nnoremap ,ww :w<CR>
 nnoremap ,wq :wq<CR>
 nnoremap ,qq :q<CR>
@@ -48,6 +52,7 @@ inoremap <<Tab> <><LEFT>
 inoremap "<Tab> ""<LEFT>
 inoremap '<Tab> ''<LEFT>
 
+<<<<<<< HEAD
 inoremap {+ {};<LEFT><LEFT>
 inoremap [+ [];<LEFT><LEFT>
 inoremap (+ ();<LEFT><LEFT>
@@ -55,6 +60,8 @@ inoremap <+ <>;<LEFT><LEFT>
 inoremap "+ "";<LEFT><LEFT>
 inoremap '+ '';<LEFT><LEFT>
 
+=======
+>>>>>>> bb69096c1e953eaf236080127612c18779e3c381
 inoremap {F {}<LEFT>
 inoremap [F []<LEFT>
 inoremap (F ()<LEFT>
