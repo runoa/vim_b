@@ -1,7 +1,7 @@
-
 filetype on
 filetype indent on
 filetype plugin on
+colorscheme molokai
 
 "command
 set hidden
@@ -10,6 +10,7 @@ set wildmenu
 set wildmode=list,full
 set complete+=k
 "set complete=.,w,b,u,t,i,k
+nnoremap ,ss :source ~/.vimrc<CR>
 
 "display
 syntax on
@@ -27,17 +28,52 @@ set softtabstop=4
 "edit
 set autoindent
 set cindent
-set pastetoggle=,p
+set pastetoggle=
+nnoremap ,ww :w<CR>
+nnoremap ,wq :wq<CR>
+nnoremap ,qq :q<CR>
+nnoremap ,qa :qall<CR>
 nnoremap U <C-r>
 inoremap <C-f> <ESC>:set iminsert=0<CR>
 
+nnoremap ,me :e ++enc=euc-jp<CR>
+nnoremap ,ms :e ++enc=shift_jis<CR>
+nnoremap ,mu :e ++enc=utf-8<CR>
+
 "" bracket
-"inoremap {<Space> {}<LEFT>
-"inoremap [<Space> []<LEFT>
-"inoremap (<Space> ()<LEFT>
-"inoremap <<Space> <><LEFT>
-"inoremap "<Space> ""<LEFT>
-"inoremap '<Space> ''<LEFT>
+inoremap {<Tab> {}<LEFT>
+inoremap [<Tab> []<LEFT>
+inoremap (<Tab> ()<LEFT>
+inoremap <<Tab> <><LEFT>
+inoremap "<Tab> ""<LEFT>
+inoremap '<Tab> ''<LEFT>
+
+inoremap {+ {};<LEFT><LEFT>
+inoremap [+ [];<LEFT><LEFT>
+inoremap (+ ();<LEFT><LEFT>
+inoremap <+ <>;<LEFT><LEFT>
+inoremap "+ "";<LEFT><LEFT>
+inoremap '+ '';<LEFT><LEFT>
+
+inoremap {F {}<LEFT>
+inoremap [F []<LEFT>
+inoremap (F ()<LEFT>
+inoremap <F <><LEFT>
+inoremap "F ""<LEFT>
+inoremap 'F ''<LEFT>
+inoremap {J {}<LEFT>
+inoremap [J []<LEFT>
+inoremap (J ()<LEFT>
+inoremap <J <><LEFT>
+inoremap "J ""<LEFT>
+inoremap 'J ''<LEFT>
+
+inoremap {<Nul> {}<LEFT>
+inoremap [<Nul> []<LEFT>
+inoremap (<Nul> ()<LEFT>
+inoremap <<Nul> <><LEFT>
+inoremap "<Nul> ""<LEFT>
+inoremap '<Nul> ''<LEFT>
 
 "complement
 "autocmd FileType python inoremap pr<Tab> print ""<LEFT>
@@ -56,7 +92,7 @@ nnoremap <C-g> gd
 nnoremap H b
 nnoremap L w
 nnoremap w ^
-nnoremap W $
+nnoremap e $
 
 "ime
 if has('multi_byte_ime')
@@ -75,7 +111,7 @@ autocmd BufEnter * execute ":lcd " . expand("%:p:h")
 if has("autocmd")
     autocmd BufReadPost *
     \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-    \   exe "normal! g'\"" |
+    \ exe "normal! g'\"" |
     \ endif
 endif
 
@@ -84,7 +120,6 @@ nnoremap ,of :FufFile<CR>
 nnoremap ,ob :FufBuffer<CR>
 
 "window
-nnoremap ,w0 :q<CR>
 nnoremap ,w1 :only<CR>
 nnoremap ,wj :sp<CR><C-w>j:FufFile<CR>
 nnoremap ,wl :vs<CR><C-w>l:FufFile<CR>
@@ -94,7 +129,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 ""window size
-nnoremap ,ww <C-w>=
+nnoremap ,w0 <C-w>=
 nnoremap <UP> 5<C-w>+
 inoremap <UP> <ESC>5<C-w>+i
 nnoremap <LEFT> 5<C-w><
@@ -134,4 +169,3 @@ nnoremap ,tf :RefreshTwitter<CR>
 
 "dictionary
 nnoremap ,d :Ref alc<Space>
-
