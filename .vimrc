@@ -28,7 +28,7 @@ set softtabstop=4
 "edit
 set autoindent
 set cindent
-set pastetoggle=
+set pastetoggle=,p
 nnoremap ,ww :w<CR>
 nnoremap ,wq :wq<CR>
 nnoremap ,qq :q<CR>
@@ -84,6 +84,7 @@ inoremap '<Nul> ''<LEFT>
 "file move
 nnoremap <C-p> :bp<CR>
 nnoremap <C-n> :bn<CR>
+
 "move
 set whichwrap=b,s,h,l,<,>,[,]
 set vb t_vb=
