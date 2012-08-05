@@ -10,7 +10,7 @@ set wildmenu
 set wildmode=list,full
 set complete+=k
 "set complete=.,w,b,u,t,i,k
-nnoremap ,ss :source ~/.vimrc<CR>
+nnoremap <space>ss :source ~/.vimrc<cr>
 
 "display
 syntax on
@@ -18,6 +18,9 @@ set number
 set ruler
 "set list
 set scrolloff=999
+set laststatus=2
+set statusline=%F%m%r%h%w\ %{fugitive#statusline()}%=[TYPE=%Y]\ [ENC=%{&fileencoding}]\ [POS=%l,%L]
+
 
 "tab
 set tabstop=4
@@ -29,16 +32,20 @@ set softtabstop=4
 set autoindent
 set cindent
 set pastetoggle=,p
-nnoremap ,ww :w<CR>
-nnoremap ,wq :wq<CR>
-nnoremap ,qq :q<CR>
-nnoremap ,qa :qall<CR>
-nnoremap U <C-r>
-inoremap <C-f> <ESC>:set iminsert=0<CR>
+nnoremap <space>ww :w<cr>
+nnoremap <space>wq :wq<cr>
+nnoremap <space>qq :q<cr>
+nnoremap <space>qa :qall<cr>
+nnoremap U <c-r>
+inoremap <c-f> <esc>:set iminsert=0<cr>
+set mouse=a
 
-nnoremap ,me :e ++enc=euc-jp<CR>
-nnoremap ,ms :e ++enc=shift_jis<CR>
-nnoremap ,mu :e ++enc=utf-8<CR>
+""neocomplcache
+let g:acp_enableAtStartup = 0
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
 
 "" bracket
 inoremap {<Tab> {}<LEFT>
@@ -75,6 +82,11 @@ inoremap <<Nul> <><LEFT>
 inoremap "<Nul> ""<LEFT>
 inoremap '<Nul> ''<LEFT>
 
+"encoding
+nnoremap <space>me :e ++enc=euc-jp<cr>
+nnoremap <space>ms :e ++enc=shift_jis<cr>
+nnoremap <space>mu :e ++enc=utf-8<cr>
+
 "complement
 "autocmd FileType python inoremap pr<Tab> print ""<LEFT>
 "autocmd FileType python inoremap if<Tab> if :<LEFT>
@@ -82,17 +94,17 @@ inoremap '<Nul> ''<LEFT>
 "autocmd FileType python inoremap s<Tab> self
 
 "file move
-nnoremap <C-p> :bp<CR>
-nnoremap <C-n> :bn<CR>
+nnoremap <c-p> :bp<cr>
+nnoremap <c-n> :bn<cr>
 
 "move
 set whichwrap=b,s,h,l,<,>,[,]
 set vb t_vb=
 nnoremap j gj
 nnoremap k gk
-nnoremap J <C-d>
-nnoremap K <C-u>
-nnoremap <C-g> gd
+nnoremap J <c-d>
+nnoremap K <c-u>
+nnoremap <c-g> gd
 nnoremap H b
 nnoremap L w
 nnoremap w ^
@@ -108,7 +120,7 @@ endif
 set incsearch
 set ignorecase
 set smartcase
-nnoremap ,h :set hlsearch! hlsearch?<CR>
+nnoremap <space>h :set hlsearch! hlsearch?<cr>
 
 "open
 autocmd BufEnter * execute ":lcd " . expand("%:p:h")
@@ -118,58 +130,95 @@ if has("autocmd")
     \ exe "normal! g'\"" |
     \ endif
 endif
-
 ""FuzzyFinder
-nnoremap ,of :FufFile<CR>
-nnoremap ,ob :FufBuffer<CR>
+nnoremap <space>ff :FufFile<cr>
+nnoremap <space>fb :FufBuffer<cr>
+nnoremap <space>fj :sp<cr><c-w>j:FufFile<cr>
+nnoremap <space>fk :sp<cr>:FufFile<cr>
+nnoremap <space>fl :vs<cr><c-w>l:FufFile<cr>
+nnoremap <space>fJ :sp<cr><c-w>j:FufBuffer<cr>
+nnoremap <space>fK :sp<cr>:FufBuffer<cr>
+nnoremap <space>fL :vs<cr><c-w>l:FufBuffer<cr>
+""Unite
+let g:unite_enable_start_insert = 0
+nnoremap <space>uf :Unite file file/new<cr>
+nnoremap <space>ub :Unite buffer<cr>
+nnoremap <space>ur :Unite file_mru<cr>
+nnoremap <space>ud :Unite directory_mru file<cr>
+nnoremap <space>ug :Unite grep<cr>
+nnoremap <space>uj :sp<cr><c-w>j:Unite file file/new<cr>
+nnoremap <space>uk :sp<cr>:Unite file file/new<cr>
+nnoremap <space>ul :vs<cr><c-w>l:Unite file file/new<cr>
+nnoremap <space>uJ :sp<cr><c-w>j:Unite buffer<cr>
+nnoremap <space>uK :sp<cr>:Unite buffer<cr>
+nnoremap <space>uL :vs<cr><c-w>l:Unite buffer<cr>
+au FileType unite nnoremap <buffer> <esc><esc> :q<cr>
+au FileType unite inoremap <buffer> <esc><esc> <esc>:q<cr>
 
 "window
-nnoremap ,w1 :only<CR>
-nnoremap ,wj :sp<CR><C-w>j:FufFile<CR>
-nnoremap ,wl :vs<CR><C-w>l:FufFile<CR>
+nnoremap <space>w1 :only<cr>
+nnoremap <space>wj :sp<cr>
+nnoremap <space>wk :sp<cr>
+nnoremap <space>wl :vs<cr><c-w>l
 ""window move
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
 ""window size
-nnoremap ,w0 <C-w>=
-nnoremap <UP> 5<C-w>+
-inoremap <UP> <ESC>5<C-w>+i
-nnoremap <LEFT> 5<C-w><
-inoremap <LEFT> <ESC>5<C-w><i
-nnoremap <DOWN> 5<C-w>-
-inoremap <DOWN> <ESC>5<C-w>-i
-nnoremap <RIGHT> 5<C-w>>
-inoremap <RIGHT> <ESC>5<C-w>>i
+nnoremap <space>w0 <c-w>=
+nnoremap ; 5<c-w>+
+nnoremap - 5<c-w><
+nnoremap + 5<c-w>-
+nnoremap = 5<c-w>>
 
 "execute
-autocmd FileType perl :nnoremap ,e :w<CR>:w !perl -cw %<CR>
-autocmd FileType perl :nnoremap ,r :w<CR>:w !perl %<CR>
-autocmd FileType python :nnoremap ,e :w<CR>:w !python -cw %<CR>
-autocmd FileType python :nnoremap ,r :w<CR>:w !python %<CR>
+autocmd FileType perl :nnoremap ,e :w<cr>:w !perl -cw %<cr>
+autocmd FileType perl :nnoremap ,r :w<cr>:w !perl %<cr>
+autocmd FileType python :nnoremap ,e :w<cr>:w !python -cw %<cr>
+autocmd FileType python :nnoremap ,r :w<cr>:w !python %<cr>
 
 "fold
 set foldmethod=indent
 set foldlevel=999
-nnoremap ,ff :set foldlevel=999<CR>
-nnoremap ,f0 :set foldlevel=0<CR>
-nnoremap ,f1 :set foldlevel=1<CR>
-nnoremap ,f2 :set foldlevel=2<CR>
-nnoremap ,f3 :set foldlevel=3<CR>
+nnoremap <space>lf :set foldlevel=999<cr>
+nnoremap <space>l0 :set foldlevel=0<cr>
+nnoremap <space>l1 :set foldlevel=1<cr>
+nnoremap <space>l2 :set foldlevel=2<cr>
+nnoremap <space>l3 :set foldlevel=3<cr>
 
 "twitvim
 let twitvim_count=100
 let twitvim_browser_cmd = "open -a Firefox"
-nnoremap ,tt :vs<CR>:FriendsTwitter<CR>:q<CR>
-nnoremap ,tl :ListTwitter r<CR>
-nnoremap ,tr :RepliesTwitter<CR>
-nnoremap ,tp :PosttoTwitter<CR>
-nnoremap ,tu :UserTwitter<CR><C-w>j
-nnoremap ,tn :NextTwitter<CR>
-nnoremap ,td :DMTwitter<CR>
-nnoremap ,tb :BackTwitter<CR>
-nnoremap ,tf :RefreshTwitter<CR>
+nnoremap <space>tt :vs<cr>:FriendsTwitter<cr>:q<cr>
+nnoremap <space>tl :ListTwitter r<cr>
+nnoremap <space>tr :RepliesTwitter<cr>
+nnoremap <space>tp :PosttoTwitter<cr>
+nnoremap <space>tu :UserTwitter<cr><c-w>j
+nnoremap <space>tn :NextTwitter<cr>
+nnoremap <space>td :DMTwitter<cr>
+nnoremap <space>tb :BackTwitter<cr>
+nnoremap <space>tf :RefreshTwitter<cr>
 
 "dictionary
-nnoremap ,d :Ref alc<Space>
+nnoremap <space>d :Ref alc<Space>
+
+"for crontab
+set backupskip=/tmp/*,/private/tmp/*
+
+"shell
+nnoremap <space>sh :VimShell<cr>
+nnoremap <space>sl :vs<cr><c-w>l:VimShell<cr>
+nnoremap <space>sk :sp<cr>:VimShell<cr>
+nnoremap <space>sj :sp<cr><c-w>j:VimShell<cr>
+
+"git
+nnoremap <space>gs :Gstatus<cr>
+nnoremap <space>gb :Gblame<cr>
+nnoremap <space>gl :Glog<cr>
+nnoremap <space>gd :Gdiff<cr>
+
+nnoremap <space>gS :GitStatus<cr>
+nnoremap <space>gB :GitBlame<cr>
+nnoremap <space>gL :GitLog<cr>
+nnoremap <space>gD :GitDiff<cr>
