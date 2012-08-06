@@ -168,9 +168,9 @@ nnoremap <c-l> <c-w>l
 ""window size
 nnoremap <space>w0 <c-w>=
 nnoremap ; 5<c-w>+
-nnoremap - 5<c-w><
+nnoremap = 5<c-w><
 nnoremap + 5<c-w>-
-nnoremap = 5<c-w>>
+nnoremap - 5<c-w>>
 
 "execute
 autocmd FileType perl :nnoremap ,e :w<cr>:w !perl -cw %<cr>
