@@ -19,7 +19,7 @@ set ruler
 "set list
 set scrolloff=999
 set laststatus=2
-set statusline=%F%m%r%h%w\ %{fugitive#statusline()}%=[TYPE=%Y]\ [ENC=%{&fileencoding}]\ [POS=%l,%L]
+set statusline=%F%m%r%h%w\ %{fugitive#statusline()}%=\ %Y,\ %{&fileencoding},\ %l/%L]
 
 
 "tab
