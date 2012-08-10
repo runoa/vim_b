@@ -37,12 +37,25 @@ nnoremap <space>wq :wq<cr>
 nnoremap <space>qq :q<cr>
 nnoremap <space>qa :qall<cr>
 nnoremap U <c-r>
-inoremap <c-f> <esc>:set iminsert=0<cr>
-set mouse=a
+
+"emacs keybind
+inoremap <c-f> <right>
+inoremap <c-b> <left>
+inoremap <c-p> <up>
+inoremap <c-n> <down>
+inoremap <c-a> <esc>0i
+inoremap <c-e> <esc>$a
+inoremap <c-h> <bs>
+inoremap <c-d> <esc><right>xi
+inoremap <c-k> <esc>d$a
+
+""autocomplpop
+let g:acp_enableAtStartup = 1
+highlight Pmenu ctermbg = 7
+highlight PmenuSel ctermbg = 4
 
 ""neocomplcache
-let g:acp_enableAtStartup = 0
-let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_at_startup = 0
 let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_underbar_completion = 1
@@ -168,9 +181,9 @@ nnoremap <c-l> <c-w>l
 ""window size
 nnoremap <space>w0 <c-w>=
 nnoremap ; 5<c-w>+
-nnoremap = 5<c-w><
 nnoremap + 5<c-w>-
-nnoremap - 5<c-w>>
+nnoremap @ 5<c-w>>
+nnoremap ` 5<c-w><
 
 "execute
 autocmd FileType perl :nnoremap ,e :w<cr>:w !perl -cw %<cr>
