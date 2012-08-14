@@ -49,10 +49,20 @@ inoremap <c-h> <bs>
 inoremap <c-d> <del>
 inoremap <c-k> <esc>d$a
 
+cnoremap <c-f> <right>
+cnoremap <c-b> <left>
+cnoremap <c-p> <up>
+cnoremap <c-n> <down>
+cnoremap <c-a> <home>
+cnoremap <c-e> <end>
+cnoremap <c-h> <bs>
+cnoremap <c-d> <del>
+cnoremap <c-k> <esc>d$a
+
 ""autocomplpop
 let g:acp_enableAtStartup = 0
-highlight Pmenu ctermbg = 7
-highlight PmenuSel ctermbg = 4
+highlight Pmenu ctermbg = 7 ctermfg = 4
+highlight PmenuSel ctermbg = 4 ctermfg = 7
 
 ""neocomplcache
 let g:neocomplcache_enable_at_startup = 1
@@ -205,13 +215,14 @@ let twitvim_count=100
 let twitvim_browser_cmd = "open -a Firefox"
 nnoremap <space>tt :vs<cr>:FriendsTwitter<cr>:q<cr>
 nnoremap <space>tl :ListTwitter r<cr>
-nnoremap <space>tr :RepliesTwitter<cr>
+nnoremap <space>t@ :RepliesTwitter<cr>
 nnoremap <space>tp :PosttoTwitter<cr>
-nnoremap <space>tu :UserTwitter<cr><c-w>j
+nnoremap <space>tu :UserTwitter 
 nnoremap <space>tn :NextTwitter<cr>
 nnoremap <space>td :DMTwitter<cr>
 nnoremap <space>tb :BackTwitter<cr>
-nnoremap <space>tf :RefreshTwitter<cr>
+nnoremap <space>tr :RefreshTwitter<cr>
+nnoremap <space>ts :SearchTwitter 
 
 "dictionary
 nnoremap <space>d :Ref alc<Space>
