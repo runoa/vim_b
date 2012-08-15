@@ -21,7 +21,6 @@ set scrolloff=999
 set laststatus=2
 set statusline=%F%m%r%h%w\ %{fugitive#statusline()}%=\ %Y,\ %{&fileencoding},\ %l/%L]
 
-
 "tab
 set tabstop=4
 set shiftwidth=4
@@ -164,6 +163,7 @@ nnoremap <space>fK :sp<cr>:FufBuffer<cr>
 nnoremap <space>fL :vs<cr><c-w>l:FufBuffer<cr>
 ""Unite
 let g:unite_enable_start_insert = 0
+call unite#custom_default_action('vimshell/history', 'insert')
 nnoremap <space>uf :Unite file file/new<cr>
 nnoremap <space>ub :Unite buffer<cr>
 nnoremap <space>ur :Unite file_mru<cr>
