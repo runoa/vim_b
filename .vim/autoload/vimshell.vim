@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: vimshell.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 02 Aug 2012.
+" Last Modified: 15 Aug 2012.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -25,7 +25,7 @@
 "=============================================================================
 
 function! vimshell#version()"{{{
-  return '901'
+  return '902'
 endfunction"}}}
 
 function! vimshell#echo_error(string)"{{{
@@ -55,8 +55,6 @@ endif
 if !exists('s:internal_commands')
   let s:internal_commands = {}
 endif
-
-let s:last_vimshell_bufnr = -1
 
 let s:vimshell_options = [
       \ '-buffer-name=', '-toggle', '-create',
@@ -162,8 +160,11 @@ function! vimshell#switch_shell(path, ...)"{{{
     return
   endif
 
+  if !exists('t:vimshell')
+    call vimshell#initialize_tab_variable()
+  endif
   for bufnr in filter(insert(range(1, bufnr('$')),
-        \ s:last_vimshell_bufnr),
+        \ t:vimshell.last_vimshell_bufnr),
         \ "buflisted(v:val) &&
         \  getbufvar(v:val, '&filetype') ==# 'vimshell'")
     if (!exists('t:unite_buffer_dictionary')
@@ -201,7 +202,16 @@ function! s:create_shell(path, context)"{{{
           \ vimshell#split(a:context.split_command)
   endif
 
-  let ret = s:manager.open(bufname)
+  " Save swapfile option.
+  let swapfile_save = &swapfile
+  set noswapfile
+
+  try
+    let ret = s:manager.open(bufname)
+  finally
+    let &swapfile = swapfile_save
+  endtry
+
   if !ret.loaded
     call vimshell#echo_error(
           \ '[vimshell] Failed to open Buffer.')
@@ -962,6 +972,12 @@ function! s:initialize_internal_commands()"{{{
     endif
   endfor
 endfunction"}}}
+function! vimshell#initialize_tab_variable()"{{{
+  let t:vimshell = {
+        \ 'last_vimshell_bufnr' : -1,
+        \ 'last_interactive_bufnr' : -1,
+        \ }
+endfunction"}}}
 function! s:switch_vimshell(bufnr, context, path)"{{{
   if bufwinnr(a:bufnr) > 0
     execute bufwinnr(a:bufnr) 'wincmd w'
@@ -992,30 +1008,15 @@ function! s:switch_vimshell(bufnr, context, path)"{{{
   call vimshell#start_insert()
 endfunction"}}}
 function! s:get_postfix(prefix, is_create)"{{{
-  let postfix = '@1'
-  let cnt = 1
-
-  if a:is_create
-    let tabnr = 1
-    while tabnr <= tabpagenr('$')
-      let buflist = map(tabpagebuflist(tabnr), 'bufname(v:val)')
-      if index(buflist, a:prefix.postfix) >= 0
-        let cnt += 1
-        let postfix = '@' . cnt
-      endif
-
-      let tabnr += 1
-    endwhile
-  else
-    let buflist = map(tabpagebuflist(tabpagenr()), 'bufname(v:val)')
-    for bufname in buflist
-      if stridx(bufname, a:prefix) >= 0
-        return matchstr(bufname, '@\d\+$')
-      endif
-    endfor
+  let buffers = get(a:000, 0, range(1, bufnr('$')))
+  let buflist = sort(filter(map(buffers,
+        \ 'bufname(v:val)'), 'stridx(v:val, a:prefix) >= 0'))
+  if empty(buflist)
+    return ''
   endif
 
-  return postfix
+  return a:is_create ? '@'.(matchstr(buflist[-1], '@\zs\d\+$') + 1)
+        \ : matchstr(buflist[0], '@\d\+$')
 endfunction"}}}
 function! vimshell#complete(arglead, cmdline, cursorpos)"{{{
   let _ = []
@@ -1141,7 +1142,10 @@ function! s:event_bufwin_enter()"{{{
   endfor
 endfunction"}}}
 function! s:event_bufwin_leave()"{{{
-  let s:last_vimshell_bufnr = bufnr('%')
+  if !exists('t:vimshell')
+    call vimshell#initialize_tab_variable()
+  endif
+  let t:vimshell.last_vimshell_bufnr = bufnr('%')
 endfunction"}}}
 
 " vim: foldmethod=marker

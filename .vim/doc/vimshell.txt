@@ -1,6 +1,6 @@
 *vimshell.txt*	Powerful shell implemented by Vim script
 
-Version: 9.1
+Version: 9.2
 Author : Shougo <Shougo.Matsu@gmail.com>
 License: MIT license  {{{
     Permission is hereby granted, free of charge, to any person obtaining
@@ -1310,6 +1310,34 @@ ability of vimshell will spread by creating plugin by yourself.
 
 ==============================================================================
 CHANGELOG						*vimshell-changelog*
+
+2012-08-15
+- Improved postfix.
+- Improved loaded check.
+- Fixed for password pattern.
+
+2012-08-14
+- Version 9.2 development is started.
+
+------------------------------------------------------------------------------
+ChangeLog 9.1
+
+2012-08-14
+- Fixed :VimShellSendString error.
+
+2012-08-12
+- Fixed postfix problem.
+- Fixed get_col problem.
+
+2012-08-07
+- Set noswapfile.
+- Improved vimshell_complete.
+- Improved last vimshell buffer.
+- Fixed alternate buffer.
+
+2012-08-05
+- Fixed update behavior.
+- Improved check output.
 
 2012-08-01
 - Fixed for interactive completion.

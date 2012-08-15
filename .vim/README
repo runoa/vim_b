@@ -1,83 +1,44 @@
-description:
+==============================================================================
+INTRODUCTION						*vimshell-introduction*
 
-*unite* or *unite.vim* searches and displays information from arbitrary sources like files,
-buffers, recently used files or registers. You can run one of defined action
-on a target displayed.
+==============================================================================
+USAGE							*vimshell-usage*
 
-The differences between |unite| and similar plugins like |fuzzyfinder| or |ku|
-are that |unite| doesn't use the built-in completion interface of Vim, and
-integrates sources at the same time.
+You can start VimShell with ":VimShell". VimShell works just like a common 
+shell so you should be able to use it intuitively.
 
-usage:
+Please note that VimShell uses '/' as a path separator regardless of 
+environment. Because of this VimShell will likely interpret the Windows '\' 
+path separator as an escape character.
 
-In case when you run with files and buffers as the source 
+==============================================================================
+INSTALL							*vimshell-install*
 
-:Unite file buffer
+vimshell requires |vimproc|
+http://github.com/Shougo/vimproc
 
+Please install vimproc Ver.5.0(or later) before using vimshell.
+As part of the installation of vimproc you will need to make proc.so
 
-In case when you run with the initial input value foo 
+Make method:
 
-:Unite -input=foo file
+* Mingw: >
+	$ make -f make_mingw.mak
 
+* Mac OS X: >
+	$ make -f make_mac.mak
 
-The unite you started splits the window horizontally as default, opening on 
-the top of the Vim.  For example,
+* Linux BSD: >
+	$ make -f make_gcc.mak
 
-:Unite file
+* Visual Studio: >
+	$ make -f make_msvc.mak
 
-lists up the files of the current directory.  You may choose one of the 
-candidates by moving j or k, and typing Enter opens the candidate in a new 
-buffer.  That's the default action for candidates of which kind is file.  You 
-may also select an action with <Tab> on a candidate.  See also |unite-action| 
-about the actions.
+* Cygwin: >
+	$ make -f make_cygwin.mak
 
-You can narrow down the candidates with a keyword.  After opening a unite 
-window, the cursor goes on the right side of > in the 2nd line by typing i. 
-Then you can input a keyword to narrow down the candidates.  Each single 
-characters you type narrows down the candidates.  You also can use a wild 
-card * as an arbitrary character sequence.  For example
-
-*hisa
-
-matches hisa, ujihisa, or ujihisahisa.  Furthermore, two consequence wild cards 
-matches directory recursively.  For example
-
-**/foo
-
-matches bar/foo or buzz/bar/foo.  Note that you should consider using 
-|file_rec| that will be described bellow in most cases.
-
-You may specify multiple keywords to narrow down, separating by spaces.
-
-foo bar
-
-That matches candidates that match both foo and bar.
-
-You may specify negative conditions with !.
-
-foo !bar
-
-That matches foo but candidates that match bar will be rejected.
-
-You may add wild cards automatically with / if you specify files on
--buffer-name option.  That's handy in case you select file with unite.
-
-:Unite -buffer-name=files file
-
-See also |unite_default_key_mappings| for other actions.
-
-Screencast is available. Thanks ujihisa!
-http://www.ustream.tv/recorded/11240673
- 
-install details:
-Install the distributed files into Vim script directory which is usually
-~/.vim/, or $HOME/vimfiles on Windows.
-
-In future VimJolts the Vim plugin package manager will support unite, you can
-install unite just by `jolt install unite`.
-
-You may run unite with |:Unite| command with source as parameters if you
-succeeded in installing unite.  However, it's pain in ass to run the command
-explicitly every time, so I recommend you to set a key mapping for the
-command.
+After compilation, copy autoload/vimproc.vim and autoload/vimproc/parser.vim and
+autoload/proc.so(or proc.dll) to your vim autoload directory.
+Note: "proc.dll" compiled in the Cygwin environment is only compatible with 
+Cygwin Vim and can't be used in Windows Vim.
 

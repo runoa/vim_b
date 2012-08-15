@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: interactive.vim
 " AUTHOR:  Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 01 Aug 2012.
+" Last Modified: 15 Aug 2012.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -23,8 +23,6 @@
 "     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 " }}}
 "=============================================================================
-
-let s:last_interactive_bufnr = 1
 
 " Utility functions.
 
@@ -124,7 +122,14 @@ function! vimshell#interactive#send_char(char)"{{{
   call vimshell#interactive#execute_process_out(1)
 endfunction"}}}
 function! s:send_region(line1, line2, string)"{{{
-  if s:last_interactive_bufnr <= 0 || vimshell#util#is_cmdwin()
+  if !exists('t:vimshell')
+    call vimshell#initialize_tab_variable()
+  endif
+
+  let last_interactive_bufnr = t:vimshell.last_interactive_bufnr
+
+  if last_interactive_bufnr <= 0
+        \ || vimshell#util#is_cmdwin()
     return
   endif
 
@@ -134,12 +139,13 @@ function! s:send_region(line1, line2, string)"{{{
   endif
   let string .= "\<LF>"
 
-  let winnr = bufwinnr(s:last_interactive_bufnr)
+  let winnr = bufwinnr(last_interactive_bufnr)
   if winnr <= 0
     " Open buffer.
-    let [new_pos, old_pos] = vimshell#split(g:vimshell_split_command)
+    let [new_pos, old_pos] = vimshell#split(
+          \ g:vimshell_split_command)
 
-    execute 'buffer' s:last_interactive_bufnr
+    execute 'buffer' last_interactive_bufnr
   else
     let [new_pos, old_pos] = vimshell#split('')
     execute winnr 'wincmd w'
@@ -148,7 +154,12 @@ function! s:send_region(line1, line2, string)"{{{
   let [new_pos[2], new_pos[3]] = [bufnr('%'), getpos('.')]
 
   " Check alternate buffer.
-  let type = getbufvar(s:last_interactive_bufnr, 'interactive').type
+  let interactive = getbufvar(last_interactive_bufnr,
+        \ 'interactive')
+  if type(interactive) != type({})
+    return
+  endif
+  let type = interactive.type
   if type !=# 'interactive' && type !=# 'terminal'
         \ && type !=# 'vimshell'
     return
@@ -225,8 +236,12 @@ function! s:send_string(string, is_insert, linenr)"{{{
   call vimshell#hook#call('postinput', context, in)
 endfunction"}}}
 function! vimshell#interactive#set_send_buffer(bufname)"{{{
+  if !exists('t:vimshell')
+    call vimshell#initialize_tab_variable()
+  endif
+
   let bufname = a:bufname == '' ? bufname('%') : a:bufname
-  let s:last_interactive_bufnr = bufnr(bufname)
+  let t:vimshell.last_interactive_bufnr = bufnr(bufname)
 endfunction"}}}
 
 function! vimshell#interactive#execute_process_out(is_insert)"{{{
@@ -272,6 +287,7 @@ function! s:set_output_pos(is_insert)"{{{
     else
       normal! $
     endif
+
     let b:interactive.output_pos = getpos('.')
   endif
 
@@ -326,7 +342,8 @@ function! vimshell#interactive#exit()"{{{
   if &filetype !=# 'vimshell'
     stopinsert
 
-    if exists("b:interactive.is_close_immediately") && b:interactive.is_close_immediately
+    if exists('b:interactive.is_close_immediately')
+          \ && b:interactive.is_close_immediately
       " Close buffer immediately.
       call vimshell#util#delete_buffer()
     else
@@ -519,8 +536,8 @@ function! s:check_password_input(string)"{{{
   let current_line = substitute(getline('.'), '!!!', '', 'g')
 
   if !exists('g:vimproc_password_pattern')
-        \ || (current_line !~ g:vimproc_password_pattern
-        \ && a:string !~ g:vimproc_password_pattern)
+        \ || (current_line !~# g:vimproc_password_pattern
+        \ && a:string !~# g:vimproc_password_pattern)
         \ || (b:interactive.type != 'interactive'
         \     && b:interactive.type != 'vimshell')
         \ || a:string[matchend(a:string,
@@ -553,7 +570,7 @@ function! s:check_password_input(string)"{{{
   endtry
 endfunction"}}}
 
-function! s:check_scrollback()
+function! s:check_scrollback()"{{{
   let prompt_nr = get(b:interactive, 'prompt_nr', 0)
   let output_lines = line('.') - prompt_nr
   if output_lines > g:vimshell_scrollback_limit
@@ -565,7 +582,7 @@ function! s:check_scrollback()
       call setpos('.', pos)
     endif
   endif
-endfunction
+endfunction"}}}
 
 " Autocmd functions.
 function! vimshell#interactive#check_current_output()"{{{
@@ -593,7 +610,11 @@ function! s:check_all_output(is_hold)"{{{
     endfor
   elseif mode() ==# 'i'
         \ && exists('b:interactive') && line('.') == line('$')
-    call s:check_output(b:interactive, bufnr('%'), bufnr('%'))
+    let ret = s:check_output(b:interactive, bufnr('%'), bufnr('%'))
+    if ret
+      " Skip update.
+      return
+    endif
   endif
 
   if len(winnrs) > 0
@@ -627,6 +648,16 @@ function! s:check_all_output(is_hold)"{{{
 endfunction"}}}
 function! s:check_output(interactive, bufnr, bufnr_save)"{{{
   " Output cache.
+  if exists('b:interactive') && (s:is_skk_enabled()
+        \ || (b:interactive.type ==# 'interactive'
+        \   && line('.') != b:interactive.echoback_linenr
+        \   && (vimshell#interactive#get_cur_line(
+        \             line('.'), b:interactive) != ''
+        \    || vimshell#interactive#get_cur_line(
+        \            line('$'), b:interactive) != '')))
+    return 1
+  endif
+
   if a:interactive.type ==# 'less' || !s:cache_output(a:interactive)
         \ || vimshell#util#is_cmdwin()
     return
@@ -638,14 +669,7 @@ function! s:check_output(interactive, bufnr, bufnr_save)"{{{
 
   let type = a:interactive.type
 
-  if s:is_skk_enabled()
-        \ || (type ==# 'interactive'
-        \   && line('.') != a:interactive.echoback_linenr
-        \   && (vimshell#interactive#get_cur_line(
-        \             line('.'), a:interactive) != ''
-        \    || vimshell#interactive#get_cur_line(
-        \            line('$'), a:interactive) != ''))
-        \ || (type ==# 'vimshell'
+  if (type ==# 'vimshell'
         \   && empty(b:vimshell.continuation))
     if a:bufnr != a:bufnr_save && bufexists(a:bufnr_save)
       execute bufwinnr(a:bufnr_save) . 'wincmd w'
@@ -708,9 +732,7 @@ function! s:cache_output(interactive)"{{{
   endif
 
   let outputed = 0
-  if a:interactive.process.stdout.eof
-    let outputed = 1
-  else
+  if !a:interactive.process.stdout.eof
     let read = a:interactive.process.stdout.read(10000, 0)
     if read != ''
       let outputed = 1
@@ -718,14 +740,17 @@ function! s:cache_output(interactive)"{{{
     let a:interactive.stdout_cache = read
   endif
 
-  if a:interactive.process.stderr.eof
-    let outputed = 1
-  else
+  if !a:interactive.process.stderr.eof
     let read = a:interactive.process.stderr.read(10000, 0)
     if read != ''
       let outputed = 1
     endif
     let a:interactive.stderr_cache = read
+  endif
+
+  if a:interactive.process.stderr.eof &&
+        \ a:interactive.process.stdout.eof
+    let outputed = 1
   endif
 
   return outputed
@@ -741,8 +766,13 @@ function! s:winenter()"{{{
   endif
 endfunction"}}}
 function! s:winleave(bufname)"{{{
+  if !exists('t:vimshell')
+    call vimshell#initialize_tab_variable()
+  endif
+
+  let t:vimshell.last_interactive_bufnr = bufnr(a:bufname)
+
   if exists('b:interactive')
-    let s:last_interactive_bufnr = bufnr(a:bufname)
     call vimshell#terminal#restore_title()
   endif
 endfunction"}}}
