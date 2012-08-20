@@ -37,15 +37,20 @@ nnoremap <space>qq :q<cr>
 nnoremap <space>qa :qall<cr>
 nnoremap U <c-r>
 
-"emacs keybind
+""save
+"must@bashrc : stty stop undef
+inoremap <c-s> <esc>:w<cr>
+nnoremap <c-s> <esc>:w<cr>
+
+""emacs keybind
 inoremap <c-f> <right>
 inoremap <c-b> <left>
 inoremap <c-p> <up>
 inoremap <c-n> <down>
 inoremap <c-a> <home>
 inoremap <c-e> <end>
-inoremap <c-h> <bs>
 inoremap <c-d> <del>
+inoremap <c-h> <bs>
 inoremap <c-k> <esc>d$a
 
 cnoremap <c-f> <right>
@@ -54,8 +59,8 @@ cnoremap <c-p> <up>
 cnoremap <c-n> <down>
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
-cnoremap <c-h> <bs>
 cnoremap <c-d> <del>
+cnoremap <c-h> <bs>
 cnoremap <c-k> <esc>d$a
 
 ""autocomplpop
@@ -132,12 +137,6 @@ nnoremap L w
 nnoremap w ^
 nnoremap e $
 
-"ime
-if has('multi_byte_ime')
-  highlight Cursor guifg=#000d18 guibg=#8faf9f gui=bold
-  highlight CursorIM guifg=NONE guibg=#ecbcbc
-endif
-
 " search
 set incsearch
 set ignorecase
@@ -152,6 +151,7 @@ if has("autocmd")
     \ exe "normal! g'\"" |
     \ endif
 endif
+
 ""FuzzyFinder
 nnoremap <space>ff :FufFile<cr>
 nnoremap <space>fb :FufBuffer<cr>
@@ -161,6 +161,7 @@ nnoremap <space>fl :vs<cr><c-w>l:FufFile<cr>
 nnoremap <space>fJ :sp<cr><c-w>j:FufBuffer<cr>
 nnoremap <space>fK :sp<cr>:FufBuffer<cr>
 nnoremap <space>fL :vs<cr><c-w>l:FufBuffer<cr>
+
 ""Unite
 let g:unite_enable_start_insert = 0
 call unite#custom_default_action('vimshell/history', 'insert')
@@ -183,11 +184,15 @@ nnoremap <space>w1 :only<cr>
 nnoremap <space>wj :sp<cr>
 nnoremap <space>wk :sp<cr>
 nnoremap <space>wl :vs<cr><c-w>l
+
 ""window move
 nnoremap <c-h> <c-w>h
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-l> <c-w>l
+
+"autocmd FileType vimshell inoremap <c-h> <esc><c-w>h
+
 ""window size
 nnoremap <space>w0 <c-w>=
 nnoremap ; 5<c-w>+
@@ -237,12 +242,13 @@ nnoremap <space>sk :sp<cr>:VimShell<cr>
 nnoremap <space>sj :sp<cr><c-w>j:VimShell<cr>
 
 "git
+nnoremap <space>gg :Git 
 nnoremap <space>gs :Gstatus<cr>
 nnoremap <space>gb :Gblame<cr>
-nnoremap <space>gl :Glog<cr>
-nnoremap <space>gd :Gdiff<cr>
+nnoremap <space>gl :Git log<cr>
+nnoremap <space>gd :GitDiff<cr>
+nnoremap <space>gc :Git checkout 
+nnoremap <space>ge :Gedit 
 
 nnoremap <space>gS :GitStatus<cr>
 nnoremap <space>gB :GitBlame<cr>
-nnoremap <space>gL :GitLog<cr>
-nnoremap <space>gD :GitDiff<cr>
