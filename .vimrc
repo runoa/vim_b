@@ -8,8 +8,6 @@ set hidden
 set showcmd
 set wildmenu
 set wildmode=list,full
-set complete+=k
-"set complete=.,w,b,u,t,i,k
 nnoremap <space>ss :source ~/.vimrc<cr>
 
 "display
@@ -63,16 +61,22 @@ cnoremap <c-d> <del>
 cnoremap <c-h> <bs>
 cnoremap <c-k> <esc>d$a
 
-""autocomplpop
-let g:acp_enableAtStartup = 0
+""auto complete
+set complete+=k
+"set complete=.,w,b,u,t,i,k
 highlight Pmenu ctermbg = 7 ctermfg = 4
 highlight PmenuSel ctermbg = 4 ctermfg = 7
 
+""autocomplpop
+nnoremap <space>n :NeoComplCacheDisable<cr>:AutoComplPopEnable<cr>
+let g:acp_enableAtStartup = 1
+
 ""neocomplcache
-let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_at_startup = 0
 let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_underbar_completion = 1
+nnoremap <space>N :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>
 
 "" bracket
 inoremap {<Tab> {}<LEFT>
@@ -186,10 +190,10 @@ nnoremap <space>wk :sp<cr>
 nnoremap <space>wl :vs<cr><c-w>l
 
 ""window move
-nnoremap <c-h> <c-w>h
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-l> <c-w>l
+nnoremap <c-h> <c-w>h:NeoComplCacheDisable<cr>:AutoComplPopEnable<cr>
+nnoremap <c-j> <c-w>j:NeoComplCacheDisable<cr>:AutoComplPopEnable<cr>
+nnoremap <c-k> <c-w>k:NeoComplCacheDisable<cr>:AutoComplPopEnable<cr>
+nnoremap <c-l> <c-w>l:NeoComplCacheDisable<cr>:AutoComplPopEnable<cr>
 
 "autocmd FileType vimshell inoremap <c-h> <esc><c-w>h
 
@@ -236,10 +240,10 @@ nnoremap <space>d :Ref alc<Space>
 set backupskip=/tmp/*,/private/tmp/*
 
 "shell
-nnoremap <space>sh :VimShell<cr>
-nnoremap <space>sl :vs<cr><c-w>l:VimShell<cr>
-nnoremap <space>sk :sp<cr>:VimShell<cr>
-nnoremap <space>sj :sp<cr><c-w>j:VimShell<cr>
+nnoremap <space>sh :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:VimShell<cr>
+nnoremap <space>sl :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:vs<cr><c-w>l:VimShell<cr>
+nnoremap <space>sk :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:sp<cr>:VimShell<cr>
+nnoremap <space>sj :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:sp<cr><c-w>j:VimShell<cr>
 
 "git
 nnoremap <space>gg :Git 
