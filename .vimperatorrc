@@ -1,0 +1,56 @@
+"2.3.1 (created: 2010/04/07 18:56:53)
+
+"scroll
+nnoremap j 3<C-e>
+nnoremap k 3<C-y>
+nnoremap J <C-d>
+nnoremap K <C-u>
+nnoremap 00 gg
+
+"command
+set complete=tl
+set focuscontent
+
+"edit
+nnoremap <C-i> <M-i>
+
+"tab scroll
+nnoremap h <C-p>
+nnoremap l <C-n>
+
+"bookmark
+nnoremap b :open about:mybookmarks<CR>
+nnoremap B :tabopen about:mybookmarks<CR>
+
+"link
+set nextpattern=\bnext\b,\bmore\b,next,^次(の)?ページ,\b次.*,→\b,^>$,^(>>|≫)$,^(>|≫),(>|≫)$
+set previouspattern=\bprev|previous\brev,^前(の)?ページ,\b前.*,\b←,^<$,^(<<|≪)$,^(<|≪),(<|≪)$))))
+set hintchars=jkluiopmyhnasdfqwerzxcvtgb
+hi Hint z-index:5000; font-family:Menlo; font-size:16px; color:white; background-color:red; border-color:ButtonShadow; border-width:0px; border-style:solid; padding:0px 2px 0px 2px; position:absolute;
+
+"gui
+set gui=tabs
+
+"copy
+nnoremap ,cc :copy<CR><ESC>
+nnoremap ,ct :copy %TITLE%<CR><ESC>
+nnoremap ,cu :copy %URL%<CR><ESC>
+
+"twitter
+nnoremap ,tp :tw<Space>
+nnoremap ,tt :tw!<CR>
+nnoremap ,tr :tw!@<CR>
+let g:twittperator_use_chirp=1
+
+"dictionary
+nnoremap ,de :eijiro<Space>
+nnoremap ,dg :goo<Space>
+
+"c-h
+map <C-h> <BS>
+imap <C-h> <BS>
+cmap <C-h> <BS>
+
+map <C-d> <DEL>
+imap <C-d> <DEL>
+cmap <C-d> <DEL>
