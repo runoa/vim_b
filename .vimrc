@@ -282,11 +282,13 @@ nnoremap <space>sj :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:sp<cr><c-w>j
 "git
 nnoremap <space>G :Git 
 nnoremap <space>gg :Git 
+nnoremap <space>ga :Gwrite<cr>
+nnoremap <space>gc :Gcommit<cr>
+nnoremap <space>gC :Gwrite<cr>:Gcommit<cr>
 nnoremap <space>gs :Gstatus<cr>
 nnoremap <space>gb :Gblame<cr>
 nnoremap <space>gl :Git log<cr>
 nnoremap <space>gd :GitDiff<cr>
-nnoremap <space>gc :Git checkout 
 nnoremap <space>ge :Gedit 
 
 nnoremap <space>gS :GitStatus<cr>
