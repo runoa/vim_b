@@ -1,6 +1,32 @@
+
+"neobundle
+set nocompatible
+filetype off
+if has('vim_starting')
+    set runtimepath+=$HOME/.vim/neobundle.vim.git
+    call neobundle#rc(expand('~/.bundle'))
+endif
+
+""neobundle 'git://github.com/'
+NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
+NeoBundle 'git://github.com/Shougo/neocomplcache.git'
+NeoBundle 'git://github.com/Shougo/vimshell.git'
+NeoBundle 'git://github.com/Shougo/unite.vim.git'
+NeoBundle 'git://github.com/Shougo/vimfiler.git'
+NeoBundle 'git://github.com/scrooloose/syntastic'
+NeoBundle 'git://github.com/mileszs/ack.vim'
+NeoBundle 'git://github.com/vim-scripts/L9.git'
+NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
+NeoBundle 'git://github.com/vim-scripts/AutoComplPop.git'
+NeoBundle 'git://github.com/vim-scripts/FuzzyFinder.git'
+NeoBundle 'git://github.com/basyura/TweetVim.git'
+NeoBundle 'git://github.com/tpope/vim-fugitive.git'
+NeoBundle 'git://github.com/motemen/git-vim.git'
+
+"settings
 filetype on
-filetype indent on
 filetype plugin on
+filetype indent on
 colorscheme molokai
 
 "command
@@ -36,9 +62,10 @@ nnoremap <space>qa :qall<cr>
 nnoremap U <c-r>
 
 ""save
-"must@bashrc : stty stop undef
 inoremap <c-s> <esc>:w<cr>
-nnoremap <c-s> <esc>:w<cr>
+inoremap <c-w> <esc>:w<cr>
+nnoremap <c-s> :w<cr>
+nnoremap <c-w> :w<cr>
 
 ""emacs keybind
 inoremap <c-f> <right>
@@ -183,6 +210,13 @@ nnoremap <space>uL :vs<cr><c-w>l:Unite buffer<cr>
 au FileType unite nnoremap <buffer> <esc><esc> :q<cr>
 au FileType unite inoremap <buffer> <esc><esc> <esc>:q<cr>
 
+""vimfiler
+nnoremap <space>v :VimFiler<cr>
+let g:vimfiler_safe_mode_by_default = 0
+
+""ack
+nnoremap <space>a :Ack 
+
 "window
 nnoremap <space>w1 :only<cr>
 nnoremap <space>wj :sp<cr>
@@ -256,3 +290,4 @@ nnoremap <space>ge :Gedit
 
 nnoremap <space>gS :GitStatus<cr>
 nnoremap <space>gB :GitBlame<cr>
+

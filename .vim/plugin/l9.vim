@@ -37,7 +37,7 @@ if $L9_DEBUG
   endfunction
 
 else
-  command -nargs=* L9Assert :
+  command! -nargs=* L9Assert :
 endif
 
 " }}}1
@@ -86,9 +86,9 @@ if $L9_TIMER
   endfunction
 
 else
-  command -nargs=1 L9Timer :
-  command -nargs=0 L9TimerStop :
-  command -nargs=0 L9TimerDump :
+  command! -nargs=1 L9Timer :
+  command! -nargs=0 L9TimerStop :
+  command! -nargs=0 L9TimerDump :
 endif
 
 " }}}1
@@ -97,11 +97,11 @@ endif
 
 " Grep for current buffer by l9#grepBuffers()
 " Used as :L9GrepBuffer/pattern
-command -nargs=? L9GrepBuffer    call l9#grepBuffers(<q-args>, [bufnr('%')])
+command! -nargs=? L9GrepBuffer    call l9#grepBuffers(<q-args>, [bufnr('%')])
 
 " Grep for all buffers by l9#grepBuffers()
 " Used as :L9GrepBufferAll/pattern
-command -nargs=? L9GrepBufferAll call l9#grepBuffers(<q-args>, range(1, bufnr('$')))
+command! -nargs=? L9GrepBufferAll call l9#grepBuffers(<q-args>, range(1, bufnr('$')))
 
 " }}}1
 "=============================================================================
