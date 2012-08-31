@@ -22,6 +22,7 @@ NeoBundle 'git://github.com/vim-scripts/FuzzyFinder.git'
 NeoBundle 'git://github.com/basyura/TweetVim.git'
 NeoBundle 'git://github.com/tpope/vim-fugitive.git'
 NeoBundle 'git://github.com/motemen/git-vim.git'
+NeoBundle 'git://github.com/kmnk/vim-unite-giti.git'
 
 "settings
 filetype on
@@ -60,6 +61,7 @@ nnoremap <space>wq :wq<cr>
 nnoremap <space>qq :q<cr>
 nnoremap <space>qa :qall<cr>
 nnoremap U <c-r>
+au BufRead,BufNewFile *.t set filetype=perl
 
 ""save
 inoremap <c-s> <esc>:w<cr>
@@ -296,3 +298,4 @@ nnoremap <space>gd :GitDiff<cr>
 nnoremap <space>ge :Gedit 
 nnoremap <space>gS :GitStatus<cr>
 nnoremap <space>gB :GitBlame<cr>
+
