@@ -21,8 +21,14 @@ NeoBundle 'git://github.com/vim-scripts/AutoComplPop.git'
 NeoBundle 'git://github.com/vim-scripts/FuzzyFinder.git'
 NeoBundle 'git://github.com/basyura/TweetVim.git'
 NeoBundle 'git://github.com/tpope/vim-fugitive.git'
+NeoBundle 'git://github.com/tpope/vim-surround.git'
 NeoBundle 'git://github.com/motemen/git-vim.git'
 NeoBundle 'git://github.com/kmnk/vim-unite-giti.git'
+NeoBundle 'git://github.com/kana/vim-operator-user.git'
+NeoBundle 'git://github.com/kana/vim-operator-replace.git'
+"NeoBundle 'git@git.lo.mixi.jp:users/junichi.morigaki/vim/vim-unite-mixi'
+"NeoBundle 'svn://jupiter/packages/vim/trunk/vim-unite-mixi-jenkins', { 'type' : 'svn' }
+"NeoBundle 'svn://jupiter/packages/vim/trunk/vim-unite-mixi-docroot', { 'type' : 'svn' }
 
 "settings
 filetype on
@@ -62,6 +68,9 @@ nnoremap <space>qq :q<cr>
 nnoremap <space>qa :qall<cr>
 nnoremap U <c-r>
 au BufRead,BufNewFile *.t set filetype=perl
+
+""oeprator replace
+nnoremap r <Plug>(operator-replace)
 
 ""save
 inoremap <c-s> <esc>:w<cr>
@@ -289,13 +298,16 @@ nnoremap <space>sj :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:sp<cr><c-w>j
 nnoremap <space>G :Git 
 nnoremap <space>gg :Git 
 nnoremap <space>ga :Gwrite<cr>
-nnoremap <space>gc :Gcommit -v<cr>
+nnoremap <space>gc :Unite giti/branch<cr>
 nnoremap <space>gC :Gwrite<cr>:Gcommit -v<cr>
 nnoremap <space>gs :Gstatus<cr>
 nnoremap <space>gb :Gblame<cr>
-nnoremap <space>gl :Git log<cr>
+nnoremap <space>gl :Unite giti/log<cr>
 nnoremap <space>gd :GitDiff<cr>
 nnoremap <space>ge :Gedit 
 nnoremap <space>gS :GitStatus<cr>
 nnoremap <space>gB :GitBlame<cr>
+
+"jenkins
+nnoremap <space>j :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:Unite mixi/jenkins<cr>
 
