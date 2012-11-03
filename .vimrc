@@ -8,20 +8,26 @@ if has('vim_starting')
 endif
 
 ""neobundle 'git://github.com/'
-NeoBundle 'git://github.com/Shougo/neobundle.vim.git'
-NeoBundle 'git://github.com/Shougo/neocomplcache.git'
-NeoBundle 'git://github.com/Shougo/vimshell.git'
-NeoBundle 'git://github.com/Shougo/unite.vim.git'
-NeoBundle 'git://github.com/Shougo/vimfiler.git'
-NeoBundle 'git://github.com/scrooloose/syntastic'
-NeoBundle 'git://github.com/mileszs/ack.vim'
-NeoBundle 'git://github.com/vim-scripts/L9.git'
-NeoBundle 'git://github.com/vim-scripts/TwitVim.git'
-NeoBundle 'git://github.com/vim-scripts/AutoComplPop.git'
-NeoBundle 'git://github.com/vim-scripts/FuzzyFinder.git'
-NeoBundle 'git://github.com/basyura/TweetVim.git'
-NeoBundle 'git://github.com/tpope/vim-fugitive.git'
-NeoBundle 'git://github.com/motemen/git-vim.git'
+NeoBundle 'Shougo/neobundle.vim.git'
+NeoBundle 'Shougo/unite.vim.git'
+NeoBundle 'Shougo/neocomplcache.git'
+NeoBundle 'Shougo/vimshell.git'
+NeoBundle 'Shougo/vimfiler.git'
+NeoBundle 'Shougo/neosnippet.git'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'mileszs/ack.vim'
+NeoBundle 'vim-scripts/L9.git'
+NeoBundle 'vim-scripts/TwitVim.git'
+NeoBundle 'vim-scripts/AutoComplPop.git'
+NeoBundle 'vim-scripts/FuzzyFinder.git'
+NeoBundle 'basyura/TweetVim.git'
+NeoBundle 'tpope/vim-fugitive.git'
+NeoBundle 'thinca/vim-showtime'
+NeoBundle 'motemen/git-vim.git'
+NeoBundle 'deris/columnjump.git'
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'kana/vim-smartword.git'
+NeoBundle 't9md/vim-quickhl.git'
 
 "settings
 filetype on
@@ -40,10 +46,49 @@ nnoremap <space>ss :source ~/.vimrc<cr>
 syntax on
 set number
 set ruler
-"set list
-set scrolloff=999
+set list
+set listchars=tab:^\ ,trail:$
+set scrolloff=10
 set laststatus=2
 set statusline=%F%m%r%h%w\ %{fugitive#statusline()}%=\ %Y,\ %{&fileencoding},\ %l/%L]
+
+"color
+set cursorline
+set cursorcolumn
+highlight CursorLine ctermbg=4
+highlight CursorColumn ctermbg=4
+highlight Cursor ctermbg=4
+highlight Visual ctermfg=0 ctermbg=2
+au BufRead,BufNewFile *.memo set syntax=hybrid
+au BufRead,BufNewFile *.txt set syntax=hybrid
+
+""zenkaku space
+function! ZenkakuSpace()
+    highlight ZenkakuSpace ctermbg=5
+endfunction
+
+if has('syntax')
+    augroup ZenkakuSpace
+        autocmd!
+        autocmd ColorScheme * call ZenkakuSpace()
+        autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+    augroup END
+    call ZenkakuSpace()
+endif
+
+" search
+set incsearch
+set ignorecase
+set smartcase
+nnoremap <space>h :set hlsearch! hlsearch?<cr>
+
+""highlight
+nmap <space>mm <plug>(quickhl-toggle)
+xmap <space>mm <plug>(quickhl-toggle)
+nmap <space>M <plug>(quickhl-reset)
+xmap <space>M <plug>(quickhl-reset)
+nmap <space>mj <plug>(quickhl-match)
+nmap <space>ma :QuickhlAdd 
 
 "tab
 set tabstop=4
@@ -168,11 +213,20 @@ nnoremap L w
 nnoremap w ^
 nnoremap e $
 
-" search
-set incsearch
-set ignorecase
-set smartcase
-nnoremap <space>h :set hlsearch! hlsearch?<cr>
+""columnjump
+map <c-k> <Plug>(columnjump-backward)
+map <c-j> <Plug>(columnjump-forward)
+
+""easymotion
+let g:EasyMotion_keys='hjklasdfgyuiopqwertnmzxcvbHJKLASDFGYUIOPQWERTNMZXCVB'
+let g:EasyMotion_leader_key="@"
+let g:EasyMotion_grouping=1
+
+""smartword
+nnoremap ,w <Plug>(smartword-w) 
+nnoremap ,b <Plug>(smartword-b) 
+nnoremap ,e <Plug>(smartword-e) 
+nnoremap ,g <Plug>(smartword-ge)
 
 "open
 autocmd BufEnter * execute ":lcd " . expand("%:p:h")
@@ -189,13 +243,14 @@ nnoremap <space>fb :FufBuffer<cr>
 nnoremap <space>fj :sp<cr><c-w>j:FufFile<cr>
 nnoremap <space>fk :sp<cr>:FufFile<cr>
 nnoremap <space>fl :vs<cr><c-w>l:FufFile<cr>
+nnoremap <space>fh :vs<cr>:FufFile<cr>
 nnoremap <space>fJ :sp<cr><c-w>j:FufBuffer<cr>
 nnoremap <space>fK :sp<cr>:FufBuffer<cr>
 nnoremap <space>fL :vs<cr><c-w>l:FufBuffer<cr>
+nnoremap <space>fH :vs<cr>:FufBuffer<cr>
 
 ""Unite
 let g:unite_enable_start_insert = 0
-call unite#custom_default_action('vimshell/history', 'insert')
 nnoremap <space>uf :Unite file file/new<cr>
 nnoremap <space>ub :Unite buffer<cr>
 nnoremap <space>ur :Unite file_mru<cr>
@@ -204,14 +259,17 @@ nnoremap <space>ug :Unite grep<cr>
 nnoremap <space>uj :sp<cr><c-w>j:Unite file file/new<cr>
 nnoremap <space>uk :sp<cr>:Unite file file/new<cr>
 nnoremap <space>ul :vs<cr><c-w>l:Unite file file/new<cr>
+nnoremap <space>uh :vs<cr>:Unite file file/new<cr>
 nnoremap <space>uJ :sp<cr><c-w>j:Unite buffer<cr>
 nnoremap <space>uK :sp<cr>:Unite buffer<cr>
 nnoremap <space>uL :vs<cr><c-w>l:Unite buffer<cr>
+nnoremap <space>uH :vs<cr>:Unite buffer<cr>
 au FileType unite nnoremap <buffer> <esc><esc> :q<cr>
 au FileType unite inoremap <buffer> <esc><esc> <esc>:q<cr>
 
 ""vimfiler
-nnoremap <space>v :VimFiler<cr>
+nnoremap <space>v :VimFilerBufferDir<cr>
+nnoremap <space>V :VimFiler<cr>
 let g:vimfiler_safe_mode_by_default = 0
 
 ""ack
@@ -219,17 +277,15 @@ nnoremap <space>a :Ack
 
 "window
 nnoremap <space>w1 :only<cr>
-nnoremap <space>wj :sp<cr>
 nnoremap <space>wk :sp<cr>
+nnoremap <space>wh :vs<cr>
 nnoremap <space>wl :vs<cr><c-w>l
+nnoremap <space>wj :sp<cr><c-w>j
 
 ""window move
 nnoremap <c-h> <c-w>h:NeoComplCacheDisable<cr>:AutoComplPopEnable<cr>
-nnoremap <c-j> <c-w>j:NeoComplCacheDisable<cr>:AutoComplPopEnable<cr>
-nnoremap <c-k> <c-w>k:NeoComplCacheDisable<cr>:AutoComplPopEnable<cr>
 nnoremap <c-l> <c-w>l:NeoComplCacheDisable<cr>:AutoComplPopEnable<cr>
-
-"autocmd FileType vimshell inoremap <c-h> <esc><c-w>h
+nnoremap W <c-w>
 
 ""window size
 nnoremap <space>w0 <c-w>=
@@ -274,6 +330,7 @@ nnoremap <space>d :Ref alc<Space>
 set backupskip=/tmp/*,/private/tmp/*
 
 "shell
+call unite#custom_default_action('vimshell/history', 'insert')
 nnoremap <space>sh :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:VimShell<cr>
 nnoremap <space>sl :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:vs<cr><c-w>l:VimShell<cr>
 nnoremap <space>sk :AutoComplPopDisable<cr>:NeoComplCacheEnable<cr>:sp<cr>:VimShell<cr>
@@ -290,7 +347,6 @@ nnoremap <space>gb :Gblame<cr>
 nnoremap <space>gl :Git log<cr>
 nnoremap <space>gd :GitDiff<cr>
 nnoremap <space>ge :Gedit 
-
 nnoremap <space>gS :GitStatus<cr>
 nnoremap <space>gB :GitBlame<cr>
 
